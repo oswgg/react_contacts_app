@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const item = JSON.parse(localStorage.getItem('"user"'));
     if (!item) navigate('/login');
-  }, []);
+  }, [navigate]);
 
   return (
     <>
