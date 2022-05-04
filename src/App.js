@@ -1,25 +1,17 @@
-import { useEffect, useState } from 'react';
-function App() {
-  const [users, setUsers] = useState([]);
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+function App() {
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch('http://localhost:8080/api/users')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setUsers([...data]);
-      });
+    const item = JSON.parse(localStorage.getItem('"user"'));
+    if (!item) navigate('/login');
   }, []);
 
   return (
-    <div className='App'>
-      <h1>Hello World</h1>
-      {users.length == 0 ? (
-        <></>
-      ) : (
-        users.map((u, i) => <p key={i}>{u.username}</p>)
-      )}
-    </div>
+    <>
+      <h1>Hello</h1>
+    </>
   );
 }
 
