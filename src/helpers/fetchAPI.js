@@ -1,10 +1,11 @@
 const base_url = 'http://localhost:8080/api';
 
 const fetchAPI = async options => {
-  const { endpoint, method, body } = options;
+  const { Authorization, endpoint, method, body } = options;
+  console.log(Authorization);
   const headers = {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Authorization },
     body: JSON.stringify(body),
   };
   try {
