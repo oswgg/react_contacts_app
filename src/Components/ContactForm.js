@@ -1,8 +1,20 @@
-import { useState } from 'react';
-import fetchAPI from '../helpers/fetchAPI';
+import { useState, useEffect } from 'react';
 
-const ContactForm = ({ token }) => {
-  const [form, setForm] = useState({});
+const initialForm = {
+  contactName: '',
+  contactNumber: '',
+};
+
+const ContactForm = ({ handleOnSubmit, dataToEdit }) => {
+  const [form, setForm] = useState(initialForm);
+
+  useEffect(() => {
+    if (dataToEdit) {
+      setForm(dataToEdit);
+    } else {
+      setForm(initialForm);
+    }
+  }, [dataToEdit]);
 
   const handleOnChange = ({ target }) => {
     setForm({
@@ -11,43 +23,25 @@ const ContactForm = ({ token }) => {
     });
   };
 
-  const handleOnSubmit = async e => {
-    e.preventDefault();
-    const { contactName, contactNumber } = form;
-    if (!contactName || !contactNumber || contactNumber.length < 10) {
-      alert('Rellena correctamente los campos');
-      return;
-    }
-
-    const createContact = async () => {
-      const options = {
-        endpoint: 'contacts',
-        method: 'POST',
-        Authorization: `Bearer ${token}`,
-        body: {
-          name: contactName,
-          number: contactNumber,
-        },
-      };
-      const data = await fetchAPI(options);
-      return data;
-    };
-    const fetchedAPI = await createContact();
-    console.log(fetchedAPI);
-  };
-
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        handleOnSubmit(form);
+      }}
+    >
       <input
         type='text'
         name='contactName'
         placeholder='Contact name'
+        value={form.contactName}
         onChange={handleOnChange}
       />
       <input
         type='number'
         name='contactNumber'
         placeholder='Contact number'
+        value={form.contactNumber}
         onChange={handleOnChange}
       />
       <input type='submit' value='Create' />

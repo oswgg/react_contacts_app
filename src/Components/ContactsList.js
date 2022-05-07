@@ -1,11 +1,20 @@
-const ContactsList = ({ contacts }) => {
+import Contact from './Contact';
+
+const ContactsList = ({ contacts, deleteContact, setDataToEdit }) => {
   return (
     <div>
-      {contacts.map((el, i) => (
-        <div key={i}>
-          Name: {el.name} {'—'} Number: {el.number}
-        </div>
-      ))}
+      {contacts ? (
+        contacts.map((el, i) => (
+          <Contact
+            key={i}
+            el={el}
+            deleteContact={deleteContact}
+            setDataToEdit={setDataToEdit}
+          />
+        ))
+      ) : (
+        <p>Sin elementos</p>
+      )}
     </div>
   );
 };

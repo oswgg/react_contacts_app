@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import fetchAPI from '../helpers/fetchAPI';
+import fetchAPI from '../helpers/helpHttp';
 
 const Register = () => {
   const [form, setForm] = useState({});
@@ -39,8 +39,8 @@ const Register = () => {
         return data;
       };
 
-      const fetchedAPI = await postUser();
-      console.log(fetchedAPI?.error ?? fetchedAPI.message);
+      // const fetchedAPI = await postUser();
+      // console.log(fetchedAPI?.error ?? fetchedAPI.message);
     }
   };
 

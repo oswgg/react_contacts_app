@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import fetchAPI from '../helpers/fetchAPI';
+import { Link, useNavigate } from 'react-router-dom';
+import helpHttp from '../helpers/helpHttp';
 
 const Login = () => {
   const [form, setForm] = useState({});
+  const navigate = useNavigate();
+
+  const api = helpHttp();
 
   const handleOnChange = ({ target }) => {
     setForm({
@@ -12,30 +15,23 @@ const Login = () => {
     });
   };
 
-  const handleOnSubmit = async e => {
+  const handleOnSubmit = e => {
     e.preventDefault();
     const { usernameEmail, password } = form;
     if (!usernameEmail || !password) {
       alert('Completa los campos');
       return;
     }
-
-    const postLogin = async () => {
-      const options = {
-        endpoint: 'login',
-        method: 'POST',
-        body: {
-          usernameEmail,
-          password,
-        },
-      };
-      const data = await fetchAPI(options);
-      return data;
+    const options = {
+      method: 'POST',
+      body: { usernameEmail, password },
     };
 
-    const fetchedAPI = await postLogin();
-    localStorage.setItem('userInformation', JSON.stringify(fetchedAPI));
-    console.log(localStorage.getItem('userInformation'));
+    api.post('login', options).then(data => {
+      console.log(data);
+      localStorage.setItem('userInformation', JSON.stringify(data));
+      navigate('/');
+    });
   };
 
   return (
