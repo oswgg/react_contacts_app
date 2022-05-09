@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import helpHttp from '../helpers/helpHttp';
 import useLS from '../Hooks/useLS';
+
+import LoginWrapper from '../Components/Styled Login/LoginWrapper';
+import {
+  StyledInput,
+  StyledSubmit,
+} from '../Components/Styled Login/StyledInput';
+import { StyledWrapper } from '../Components/Styled Login/StyledWrapper';
+import { StyledLabel } from '../Components/Styled Login/StyledLabel';
+import StyledTitle from '../Components/Styled Login/StyledTitle';
 
 const Login = () => {
   const [form, setForm] = useState({});
@@ -44,21 +54,45 @@ const Login = () => {
         setError(error.message);
       });
   };
-
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleOnSubmit}>
-        <input type='text' onChange={handleOnChange} name='usernameEmail' />
-        <input type='password' onChange={handleOnChange} name='password' />
-        <input type='submit' />
-      </form>
+    <StyledWrapper>
+      <LoginWrapper>
+        <StyledTitle>Login Here</StyledTitle>
+        <form
+          onSubmit={handleOnSubmit}
+          style={{
+            width: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <StyledLabel htmlFor='usernameEmail'>Username</StyledLabel>
+          <StyledInput
+            id='usernameEmail'
+            placeholder='username or email'
+            type='text'
+            onChange={handleOnChange}
+            name='usernameEmail'
+          />
+          <StyledLabel htmlFor='password'>Password</StyledLabel>
 
-      {error && <p>{error}</p>}
-      <p>
-        Don't you have an account? <Link to='/register'>Register</Link>
-      </p>
-    </div>
+          <StyledInput
+            id='password'
+            placeholder='password'
+            type='password'
+            onChange={handleOnChange}
+            name='password'
+          />
+          <StyledSubmit type='submit' />
+        </form>
+
+        {error && <p>{error}</p>}
+        <p>
+          Don't you have an account? <Link to='/register'>Register</Link>
+        </p>
+      </LoginWrapper>
+    </StyledWrapper>
   );
 };
 
