@@ -44,7 +44,7 @@ const ContactForm = ({ handleOnSubmit, dataToEdit }) => {
         value={form.contactNumber}
         onChange={handleOnChange}
       />
-      <input type='submit' value='Create' />
+      <input type='submit' value={dataToEdit ? 'Confirm' : 'Create'} />
     </form>
   );
 };

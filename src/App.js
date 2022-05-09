@@ -3,30 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import ContactForm from './Components/ContactForm';
 import ContactsList from './Components/ContactsList';
 import helpHttp from './helpers/helpHttp';
+import useLS from './Hooks/useLS';
 
 function App() {
-  const [userToken, setUserToken] = useState('');
-  const [contacts, setContacts] = useState(null);
+  const [user, setUser] = useState({});
+  const [contacts, setContacts] = useState([]);
   const [dataToEdit, setDataToEdit] = useState(null);
+  const [error, setError] = useState(null);
+  const [data, newData] = useLS('userInformation', null);
 
   const navigate = useNavigate();
   const api = helpHttp();
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('userInformation')).token;
+    const token = data?.token;
+
     if (!token) {
       navigate('/login');
       return;
     }
-    setUserToken(token);
+
+    setUser({
+      token: data.token,
+      username: data.user,
+    });
 
     const options = {
       Authorization: `Bearer ${token}`,
     };
 
-    api.get('contacts', options).then(data => {
-      setContacts([...data]);
-    });
+    api
+      .get('contacts', options)
+      .then(res => {
+        if (res.error) {
+          res.message = res.message || 'Ocurrió un error';
+          throw res;
+        }
+        setContacts([...res]);
+      })
+      .catch(error => setError(error.message));
   }, []);
 
   const handleSubmit = form => {
@@ -52,7 +67,7 @@ function App() {
     const { contactName, contactNumber } = form;
 
     const options = {
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Bearer ${user.token}`,
       body: {
         name: contactName,
         number: contactNumber,
@@ -60,7 +75,6 @@ function App() {
     };
     api.post('contacts', options).then(res => {
       setContacts([...contacts, res.newContact]);
-      setDataToEdit(null);
     });
   };
 
@@ -68,7 +82,7 @@ function App() {
     const { contactName, contactNumber, id } = form;
 
     const options = {
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Bearer ${user.token}`,
       body: {
         name: contactName,
         number: contactNumber,
@@ -81,13 +95,14 @@ function App() {
         el.id === Number(id) ? options.body : el
       );
       setContacts(newData);
+      setDataToEdit(null);
     });
   };
 
   const deleteContact = ({ target }) => {
     const id = target.dataset.id;
     const options = {
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Bearer ${user.token}`,
       body: {
         id,
       },
@@ -98,15 +113,29 @@ function App() {
     });
   };
 
+  const logOut = () => {
+    newData(null);
+    navigate('/login');
+  };
+
   return (
     <>
-      <h1>Hello</h1>
+      <h1>Hello {user.username}</h1>
+      {dataToEdit && <p>Editando: {dataToEdit.contactName}</p>}
+
       <ContactForm handleOnSubmit={handleSubmit} dataToEdit={dataToEdit} />
-      <ContactsList
-        contacts={contacts}
-        deleteContact={deleteContact}
-        setDataToEdit={setDataToEdit}
-      />
+
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <ContactsList
+          contacts={contacts}
+          deleteContact={deleteContact}
+          setDataToEdit={setDataToEdit}
+        />
+      )}
+
+      <button onClick={logOut}>Log out</button>
     </>
   );
 }

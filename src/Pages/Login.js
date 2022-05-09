@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import helpHttp from '../helpers/helpHttp';
+import useLS from '../Hooks/useLS';
 
 const Login = () => {
   const [form, setForm] = useState({});
+  const [error, setError] = useState(null);
+  const [data, newData] = useLS('userInformation', null);
   const navigate = useNavigate();
 
   const api = helpHttp();
@@ -27,11 +30,19 @@ const Login = () => {
       body: { usernameEmail, password },
     };
 
-    api.post('login', options).then(data => {
-      console.log(data);
-      localStorage.setItem('userInformation', JSON.stringify(data));
-      navigate('/');
-    });
+    api
+      .post('login', options)
+      .then(res => {
+        if (res.error) {
+          res.message = res.message || 'Ocurrió un error';
+          throw res;
+        }
+        newData(res);
+        navigate('/');
+      })
+      .catch(error => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -42,6 +53,8 @@ const Login = () => {
         <input type='password' onChange={handleOnChange} name='password' />
         <input type='submit' />
       </form>
+
+      {error && <p>{error}</p>}
       <p>
         Don't you have an account? <Link to='/register'>Register</Link>
       </p>

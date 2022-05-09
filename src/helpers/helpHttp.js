@@ -1,7 +1,7 @@
-const base_url = 'http://192.168.0.2:8080/api';
+const base_url = 'http://192.168.0.6:8080/api';
 
 const helpHttp = () => {
-  const customFetch = (endpoint, options) => {
+  const customFetch = async (endpoint, options) => {
     const headers = {
       method: options.method || 'GET',
       headers: {
@@ -14,7 +14,15 @@ const helpHttp = () => {
     if (!headers.body) delete headers.body;
 
     return fetch(endpoint, headers)
-      .then(res => res.json())
+      .then(res =>
+        res.status !== 404
+          ? res.json()
+          : Promise.reject({
+              error: true,
+              status: res.status,
+              statusText: res.statusText,
+            })
+      )
       .catch(err => err);
   };
 

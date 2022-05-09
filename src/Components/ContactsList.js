@@ -3,7 +3,7 @@ import Contact from './Contact';
 const ContactsList = ({ contacts, deleteContact, setDataToEdit }) => {
   return (
     <div>
-      {contacts ? (
+      {contacts.length !== 0 ? (
         contacts.map((el, i) => (
           <Contact
             key={i}

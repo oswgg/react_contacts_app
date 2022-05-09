@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import fetchAPI from '../helpers/helpHttp';
+import { useNavigate } from 'react-router-dom';
+import helpHttp from '../helpers/helpHttp';
 
 const Register = () => {
   const [form, setForm] = useState({});
   const [matchedPass, setMatchedPass] = useState(false);
+  const [error, setError] = useState(null);
+
+  const api = helpHttp();
+  const navigate = useNavigate();
 
   const handleOnChange = ({ target }) => {
     setForm({
@@ -12,7 +17,7 @@ const Register = () => {
     });
   };
 
-  const handleOnSubmit = async e => {
+  const handleOnSubmit = e => {
     e.preventDefault();
     const { username, email, password, confirmedPassword } = form;
     if (!username || !password || !confirmedPassword) {
@@ -25,22 +30,21 @@ const Register = () => {
     }
     setMatchedPass(true);
     if (matchedPass) {
-      const postUser = async () => {
-        const options = {
-          endpoint: 'users',
-          method: 'POST',
-          body: {
-            username,
-            email,
-            password,
-          },
-        };
-        const data = await fetchAPI(options);
-        return data;
+      const options = {
+        body: {
+          username,
+          email,
+          password,
+        },
       };
-
-      // const fetchedAPI = await postUser();
-      // console.log(fetchedAPI?.error ?? fetchedAPI.message);
+      api.post('users', options).then(res => {
+        if (res.error) {
+          setError(res.error);
+        } else {
+          navigate('/login');
+          setError(null);
+        }
+      });
     }
   };
 
@@ -74,6 +78,11 @@ const Register = () => {
         />
         <input type='submit' />
       </form>
+      {error && (
+        <div>
+          <p>{error}</p>
+        </div>
+      )}
     </>
   );
 };
