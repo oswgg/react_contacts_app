@@ -1,8 +1,9 @@
 import Contact from './Contact';
+import ErrorMessage from '../Components/Styled/Login/ErrorMessage';
 
 const ContactsList = ({ contacts, deleteContact, setDataToEdit }) => {
   return (
-    <div>
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       {contacts.length !== 0 ? (
         contacts.map((el, i) => (
           <Contact
@@ -13,7 +14,7 @@ const ContactsList = ({ contacts, deleteContact, setDataToEdit }) => {
           />
         ))
       ) : (
-        <p>Sin elementos</p>
+        <ErrorMessage>Sin elementos</ErrorMessage>
       )}
     </div>
   );

@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContactForm from './Components/ContactForm';
-import ContactsList from './Components/ContactsList';
-import helpHttp from './helpers/helpHttp';
-import useLS from './Hooks/useLS';
+import ContactForm from '../Components/ContactForm';
+import ContactsList from '../Components/ContactsList';
+import helpHttp from '../helpers/helpHttp';
+import useLS from '../Hooks/useLS';
+
+import { Wrapper, StyledTitle } from '../Components/Styled/Global';
+import ErrorMessage from '../Components/Styled/Login/ErrorMessage';
+import { Button } from '../Components/Styled/Global';
 
 function App() {
   const [user, setUser] = useState({});
@@ -119,14 +123,26 @@ function App() {
   };
 
   return (
-    <>
-      <h1>Hello {user.username}</h1>
+    <Wrapper>
+      <div
+        style={{
+          width: '95%',
+          margin: '0 auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <StyledTitle textColor='#fff'>Hello {user.username}</StyledTitle>
+        <Button onClick={logOut}>Log out</Button>
+      </div>
+
       {dataToEdit && <p>Editando: {dataToEdit.contactName}</p>}
 
       <ContactForm handleOnSubmit={handleSubmit} dataToEdit={dataToEdit} />
 
       {error ? (
-        <p>{error}</p>
+        <ErrorMessage>{error}</ErrorMessage>
       ) : (
         <ContactsList
           contacts={contacts}
@@ -134,9 +150,7 @@ function App() {
           setDataToEdit={setDataToEdit}
         />
       )}
-
-      <button onClick={logOut}>Log out</button>
-    </>
+    </Wrapper>
   );
 }
 

@@ -1,13 +1,10 @@
+import { Wrapper } from '../Global';
 import styled from 'styled-components';
-
-export const StyledWrapper = styled.div`
-  height: 100vh;
-  width: 100%;
-  margin: 0 auto;
+export const LoginContainer = styled(Wrapper)`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #2c3e50;
 
   &:before {
     content: '';

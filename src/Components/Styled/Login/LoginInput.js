@@ -6,14 +6,17 @@ export const StyledInput = styled.input`
   border: none;
   width: 90%;
   background: rgba(100, 100, 100, 0.2);
-  padding: 10px 10px;
+  backdrop-filter: blur(1px);
+  padding: 14px 10px;
   margin-bottom: 25px;
   border-radius: 3px;
   color: #fff;
 `;
 
-export const StyledSubmit = styled(StyledInput)`
+export const StyledSubmit = styled(StyledInput).attrs({ type: 'submit' })`
   background: #fff;
+  width: 95%;
   color: #000;
+  margin-bottom: 10px;
   padding: 10px;
 `;

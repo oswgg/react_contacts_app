@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import helpHttp from '../helpers/helpHttp';
 import useLS from '../Hooks/useLS';
 
-import LoginWrapper from '../Components/Styled Login/LoginWrapper';
+// Styles
+import { LoginContainer } from '../Components/Styled/Login/LoginContainer';
+import LoginWrapper from '../Components/Styled/Login/LoginWrapper';
+import { StyledLabel } from '../Components/Styled/Login/LoginLabel';
+import ErrorMessage from '../Components/Styled/Login/ErrorMessage';
+import { StyledTitle } from '../Components/Styled/Global';
 import {
   StyledInput,
   StyledSubmit,
-} from '../Components/Styled Login/StyledInput';
-import { StyledWrapper } from '../Components/Styled Login/StyledWrapper';
-import { StyledLabel } from '../Components/Styled Login/StyledLabel';
-import StyledTitle from '../Components/Styled Login/StyledTitle';
+} from '../Components/Styled/Login/LoginInput';
 
 const Login = () => {
   const [form, setForm] = useState({});
@@ -52,12 +53,15 @@ const Login = () => {
       })
       .catch(error => {
         setError(error.message);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       });
   };
   return (
-    <StyledWrapper>
+    <LoginContainer>
       <LoginWrapper>
-        <StyledTitle>Login Here</StyledTitle>
+        <StyledTitle textColor='#fff'>Login Here</StyledTitle>
         <form
           onSubmit={handleOnSubmit}
           style={{
@@ -87,12 +91,12 @@ const Login = () => {
           <StyledSubmit type='submit' />
         </form>
 
-        {error && <p>{error}</p>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <p>
           Don't you have an account? <Link to='/register'>Register</Link>
         </p>
       </LoginWrapper>
-    </StyledWrapper>
+    </LoginContainer>
   );
 };
 

@@ -28,6 +28,7 @@ const ContactForm = ({ handleOnSubmit, dataToEdit }) => {
       onSubmit={e => {
         e.preventDefault();
         handleOnSubmit(form);
+        setForm(initialForm);
       }}
     >
       <input
