@@ -17,17 +17,17 @@ const Contact = ({ el, deleteContact, setDataToEdit }) => {
   return (
     <CardContainer>
       <div>
-        <StyledText textColor='#fff' size='xxl'>
+        <StyledText textColor='#000' size='xxl'>
           {first}
           {name.substring(1)}
         </StyledText>
-        <StyledText textColor='rgba(255, 255,255, 0.5)'>{number}</StyledText>
+        <StyledText textColor='rgba(0, 0,0, .5)'>{number}</StyledText>
       </div>
       <div>
-        <CardButton data-id={id} onClick={deleteContact}>
+        <CardButton onClick={handleEdit}>Editar</CardButton>
+        <CardButton data-id={id} onClick={deleteContact} delete>
           Eliminar
         </CardButton>
-        <CardButton onClick={handleEdit}>Editar</CardButton>
       </div>
     </CardContainer>
   );

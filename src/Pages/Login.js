@@ -1,18 +1,20 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import helpHttp from '../helpers/helpHttp';
 import useLS from '../Hooks/useLS';
 
 // Styles
-import { LoginContainer } from '../Components/Styled/Login/LoginContainer';
-import LoginWrapper from '../Components/Styled/Login/LoginWrapper';
-import { StyledLabel } from '../Components/Styled/Login/LoginLabel';
-import ErrorMessage from '../Components/Styled/Login/ErrorMessage';
-import { StyledTitle } from '../Components/Styled/Global';
+import { FormContainer } from '../Components/Styled/Form/FormContainer';
+import FormWrapper from '../Components/Styled/Form/FormWrapper';
+import { FormLabel } from '../Components/Styled/Form/FormLabel';
+import ErrorMessage from '../Components/Styled/ErrorMessage';
 import {
-  StyledInput,
-  StyledSubmit,
-} from '../Components/Styled/Login/LoginInput';
+  StyledLink,
+  StyledText,
+  StyledTitle,
+} from '../Components/Styled/Global';
+import { FormInput, FormSubmit } from '../Components/Styled/Form/FormInput';
+import { FormMessageContainer } from '../Components/Styled/Form/FormMessageContainer';
 
 const Login = () => {
   const [form, setForm] = useState({});
@@ -33,7 +35,10 @@ const Login = () => {
     e.preventDefault();
     const { usernameEmail, password } = form;
     if (!usernameEmail || !password) {
-      alert('Completa los campos');
+      setError('All fields are required');
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
       return;
     }
     const options = {
@@ -59,8 +64,8 @@ const Login = () => {
       });
   };
   return (
-    <LoginContainer>
-      <LoginWrapper>
+    <FormContainer>
+      <FormWrapper>
         <StyledTitle textColor='#fff'>Login Here</StyledTitle>
         <form
           onSubmit={handleOnSubmit}
@@ -71,32 +76,36 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
-          <StyledLabel htmlFor='usernameEmail'>Username</StyledLabel>
-          <StyledInput
+          <FormLabel htmlFor='usernameEmail'>Username</FormLabel>
+          <FormInput
             id='usernameEmail'
             placeholder='username or email'
             type='text'
             onChange={handleOnChange}
             name='usernameEmail'
           />
-          <StyledLabel htmlFor='password'>Password</StyledLabel>
+          <FormLabel htmlFor='password'>Password</FormLabel>
 
-          <StyledInput
+          <FormInput
             id='password'
             placeholder='password'
             type='password'
             onChange={handleOnChange}
             name='password'
           />
-          <StyledSubmit type='submit' />
+
+          <FormMessageContainer>
+            <FormSubmit type='submit' value='Login' />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+          </FormMessageContainer>
         </form>
 
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <p>
-          Don't you have an account? <Link to='/register'>Register</Link>
-        </p>
-      </LoginWrapper>
-    </LoginContainer>
+        <StyledText textColor='rgba(255, 255, 255, 0.6)'>
+          Don't you have an account?{' '}
+          <StyledLink to='/register'>Register</StyledLink>
+        </StyledText>
+      </FormWrapper>
+    </FormContainer>
   );
 };
 

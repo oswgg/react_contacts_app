@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const StyledLabel = styled.label`
+export const FormLabel = styled.label`
   font-family: 'Poppins';
   font-size: 12px;
-  display: block;
-  width: 94%;
+  align-self: flex-start;
+  padding-left: 12px;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: #fff;
 `;

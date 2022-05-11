@@ -5,8 +5,9 @@ import ContactsList from '../Components/ContactsList';
 import helpHttp from '../helpers/helpHttp';
 import useLS from '../Hooks/useLS';
 
+// Styles
 import { Wrapper, StyledTitle } from '../Components/Styled/Global';
-import ErrorMessage from '../Components/Styled/Login/ErrorMessage';
+import ErrorMessage from '../Components/Styled/ErrorMessage';
 import { Button } from '../Components/Styled/Global';
 
 function App() {
@@ -133,7 +134,9 @@ function App() {
           alignItems: 'center',
         }}
       >
-        <StyledTitle textColor='#fff'>Hello {user.username}</StyledTitle>
+        <StyledTitle textColor='#000'>
+          <span style={{ fontWeight: '100' }}>Hello,</span> {user.username}
+        </StyledTitle>
         <Button onClick={logOut}>Log out</Button>
       </div>
 
