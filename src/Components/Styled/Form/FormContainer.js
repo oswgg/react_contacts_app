@@ -20,5 +20,8 @@ export const FormContainer = styled(Wrapper)`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(45deg, rgb(240 114 179), rgb(37 212 245));
+  background: ${props =>
+    props.transparent
+      ? 'rgba(255, 255 ,255, 0.4)'
+      : 'linear-gradient(45deg, rgb(240 114 179), rgb(37 212 245))'};
 `;

@@ -9,12 +9,15 @@ import useLS from '../Hooks/useLS';
 import { Wrapper, StyledTitle } from '../Components/Styled/Global';
 import ErrorMessage from '../Components/Styled/ErrorMessage';
 import { Button } from '../Components/Styled/Global';
+import { Header } from '../Components/Styled/Header';
+import { NewContactContainer } from '../Components/Styled/NewContact';
 
 function App() {
   const [user, setUser] = useState({});
   const [contacts, setContacts] = useState([]);
   const [dataToEdit, setDataToEdit] = useState(null);
   const [error, setError] = useState(null);
+  const [visible, setVisible] = useState(false);
   const [data, newData] = useLS('userInformation', null);
 
   const navigate = useNavigate();
@@ -52,15 +55,17 @@ function App() {
   const handleSubmit = form => {
     const { contactName, contactNumber } = form;
     if (!contactName || !contactNumber) {
-      alert('Rellena correctamente campos');
+      setError('All fields are required');
       return;
     }
 
     if (!(contactNumber.length === 10)) {
-      alert('El numero de telefono debe tener 10 dígitos');
+      setError('El numero de telefono debe tener 10 dígitos');
       return;
     }
 
+    setVisible(false);
+    setError(false);
     if (form.id) {
       updateContact(form);
     } else {
@@ -85,7 +90,6 @@ function App() {
 
   const updateContact = form => {
     const { contactName, contactNumber, id } = form;
-
     const options = {
       Authorization: `Bearer ${user.token}`,
       body: {
@@ -125,24 +129,23 @@ function App() {
 
   return (
     <Wrapper>
-      <div
-        style={{
-          width: '95%',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <StyledTitle textColor='#000'>
+      <NewContactContainer visible={visible}>
+        <ContactForm
+          handleOnSubmit={handleSubmit}
+          dataToEdit={dataToEdit}
+          error={error}
+          setVisible={setVisible}
+        />
+      </NewContactContainer>
+
+      <Header>
+        <StyledTitle textColor='rgba(255,255,255, 0.9)'>
           <span style={{ fontWeight: '100' }}>Hello,</span> {user.username}
         </StyledTitle>
-        <Button onClick={logOut}>Log out</Button>
-      </div>
-
-      {dataToEdit && <p>Editando: {dataToEdit.contactName}</p>}
-
-      <ContactForm handleOnSubmit={handleSubmit} dataToEdit={dataToEdit} />
+        <Button onClick={logOut} style={{ marginRight: '5%' }}>
+          Log out
+        </Button>
+      </Header>
 
       {error ? (
         <ErrorMessage>{error}</ErrorMessage>
@@ -151,8 +154,10 @@ function App() {
           contacts={contacts}
           deleteContact={deleteContact}
           setDataToEdit={setDataToEdit}
+          setVisible={setVisible}
         />
       )}
+      <button onClick={() => setVisible(true)}>Create New Contact</button>
     </Wrapper>
   );
 }

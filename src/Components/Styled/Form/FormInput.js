@@ -10,9 +10,9 @@ export const FormInput = styled.input`
   padding: 10px 15px;
   margin-bottom: 25px;
   border-radius: 20px;
-  color: #fff;
+  color: ${props => (props.black ? '#000' : '#fff')};
   &::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: ${props => (props.black ? '#000' : 'rgba(255, 255 ,255, 0.8)')};
   }
 `;
 
