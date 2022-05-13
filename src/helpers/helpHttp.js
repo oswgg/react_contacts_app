@@ -40,7 +40,6 @@ const helpHttp = () => {
   const put = (endpoint, options) => {
     const url = `${base_url}/${endpoint}`;
     options.method = 'PUT';
-    console.log(options);
     return customFetch(url, options);
   };
 

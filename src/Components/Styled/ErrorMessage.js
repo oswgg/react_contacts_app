@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const ErrorMessage = styled.p`
   width: 65%;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   padding: 10px 0;
   margin: 0;
@@ -10,7 +10,7 @@ const ErrorMessage = styled.p`
   backdrop-filter: blur(10px);
   border-radius: 20px;
   z-index: 200;
-  color: #fff;
+  color: ${props => (props.textColor ? `${props.textColor}` : '#fff')};
 `;
 
 export default ErrorMessage;

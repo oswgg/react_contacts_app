@@ -1,18 +1,18 @@
 import { CardButton, CardContainer } from './Styled/ContactCard';
 import { StyledText } from './Styled/Global';
 
-const Contact = ({ el, deleteContact, setDataToEdit, setVisible }) => {
+const Contact = ({ el, deleteContact, handleOnEdit, setVisible }) => {
   const { name, number, id } = el;
 
   const first = name[0].toUpperCase();
 
   const handleEdit = () => {
-    setVisible(true);
-    setDataToEdit({
+    handleOnEdit({
       contactName: name,
       contactNumber: number,
       id,
     });
+    setVisible(true);
   };
 
   return (

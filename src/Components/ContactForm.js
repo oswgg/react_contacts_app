@@ -3,14 +3,16 @@ import ErrorMessage from './Styled/ErrorMessage';
 import { FormInput, FormSubmit } from './Styled/Form/FormInput';
 import { FormMessageContainer } from './Styled/Form/FormMessageContainer';
 import FormWrapper from './Styled/Form/FormWrapper';
-import { StyledTitle } from './Styled/Global';
+import { CancelButton, StyledTitle } from './Styled/Global';
 
 const initialForm = {
   contactName: '',
   contactNumber: '',
 };
 
-const ContactForm = ({ handleOnSubmit, dataToEdit, error, setVisible }) => {
+const ContactForm = props => {
+  const { handleOnSubmit, dataToEdit, formError, handleOnEdit, setVisible } =
+    props;
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
@@ -28,12 +30,20 @@ const ContactForm = ({ handleOnSubmit, dataToEdit, error, setVisible }) => {
     });
   };
 
+  const handleOnCancel = e => {
+    e.preventDefault();
+    handleOnEdit();
+    setVisible(false);
+    setForm(initialForm);
+  };
+
   return (
     <FormWrapper>
       <StyledTitle>
         {dataToEdit ? `Edit ${form.contactName}` : 'Create New Contact'}
       </StyledTitle>
       <form
+        style={{ width: '90%' }}
         onSubmit={e => {
           e.preventDefault();
           handleOnSubmit(form);
@@ -58,17 +68,12 @@ const ContactForm = ({ handleOnSubmit, dataToEdit, error, setVisible }) => {
         />
         <FormMessageContainer>
           <FormSubmit type='submit' value={dataToEdit ? 'Confirm' : 'Create'} />
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {formError && (
+            <ErrorMessage textColor='#000'>{formError}</ErrorMessage>
+          )}
         </FormMessageContainer>
-        <button
-          onClick={e => {
-            e.preventDefault();
-            setVisible(false);
-          }}
-        >
-          Cancel
-        </button>
       </form>
+      <CancelButton onClick={handleOnCancel}>Cancel</CancelButton>
     </FormWrapper>
   );
 };

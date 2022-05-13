@@ -21,7 +21,6 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   margin: 0 auto;
   background: #fdfcff;
-  /* background: #202e30; */
 `;
 
 export const Button = styled.button`
@@ -36,4 +35,37 @@ export const Button = styled.button`
 
 export const StyledLink = styled(Link)`
   color: aliceblue;
+`;
+
+export const CancelButton = styled.button`
+  background: rgba(200, 50, 50, 0.2);
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  color: #000;
+  backdrop-filter: blur(15px);
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 11px;
+`;
+
+export const NewButton = styled.button`
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  width: 65px;
+  height: 65px;
+  background-color: rgba(90, 90, 255, 1);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+
+  &::after {
+    content: '+';
+    position: absolute;
+    top: 54%;
+    left: 51%;
+    transform: translate(-50%, -50%) scale(300%);
+    color: #fff;
+  }
 `;

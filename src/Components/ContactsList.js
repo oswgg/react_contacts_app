@@ -2,7 +2,7 @@ import Contact from './Contact';
 import ErrorMessage from './Styled/ErrorMessage';
 
 const ContactsList = props => {
-  const { contacts, deleteContact, setDataToEdit, setVisible } = props;
+  const { contacts, deleteContact, handleOnEdit, setVisible } = props;
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
@@ -12,7 +12,7 @@ const ContactsList = props => {
             key={i}
             el={el}
             deleteContact={deleteContact}
-            setDataToEdit={setDataToEdit}
+            handleOnEdit={handleOnEdit}
             setVisible={setVisible}
           />
         ))
