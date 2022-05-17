@@ -24,13 +24,16 @@ export const Wrapper = styled.div`
 `;
 
 export const Button = styled.button`
+  margin: 0 auto;
   border: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-content: center;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(1px);
-  padding: 15px 15px;
-  border-radius: 5px;
-  color: #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #aaa;
 `;
 
 export const StyledLink = styled(Link)`

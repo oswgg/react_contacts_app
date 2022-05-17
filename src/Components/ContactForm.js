@@ -11,7 +11,7 @@ const initialForm = {
 };
 
 const ContactForm = props => {
-  const { handleOnSubmit, dataToEdit, formError, handleOnEdit, setVisible } =
+  const { handleOnSubmit, dataToEdit, formError, handleOnEdit, changeVisible } =
     props;
   const [form, setForm] = useState(initialForm);
 
@@ -33,7 +33,7 @@ const ContactForm = props => {
   const handleOnCancel = e => {
     e.preventDefault();
     handleOnEdit();
-    setVisible(false);
+    changeVisible();
     setForm(initialForm);
   };
 

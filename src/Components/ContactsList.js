@@ -2,7 +2,7 @@ import Contact from './Contact';
 import ErrorMessage from './Styled/ErrorMessage';
 
 const ContactsList = props => {
-  const { contacts, deleteContact, handleOnEdit, setVisible } = props;
+  const { contacts, deleteContact, handleOnEdit, changeVisible } = props;
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
@@ -13,11 +13,13 @@ const ContactsList = props => {
             el={el}
             deleteContact={deleteContact}
             handleOnEdit={handleOnEdit}
-            setVisible={setVisible}
+            changeVisible={changeVisible}
           />
         ))
       ) : (
-        <ErrorMessage>Sin elementos</ErrorMessage>
+        <ErrorMessage>
+          Sin elementos. Crea un contacto para iniciar
+        </ErrorMessage>
       )}
     </div>
   );

@@ -15,7 +15,7 @@ const useLS = (key, initialValue) => {
     }
   };
 
-  return [data, newData];
+  return { data, newData };
 };
 
 export default useLS;

@@ -1,7 +1,7 @@
 import { CardButton, CardContainer } from './Styled/ContactCard';
 import { StyledText } from './Styled/Global';
 
-const Contact = ({ el, deleteContact, handleOnEdit, setVisible }) => {
+const Contact = ({ el, deleteContact, handleOnEdit, changeVisible }) => {
   const { name, number, id } = el;
 
   const first = name[0].toUpperCase();
@@ -12,17 +12,31 @@ const Contact = ({ el, deleteContact, handleOnEdit, setVisible }) => {
       contactNumber: number,
       id,
     });
-    setVisible(true);
+    changeVisible();
   };
 
   return (
     <CardContainer>
-      <div>
-        <StyledText textColor='#000' size='xxl'>
-          {first}
-          {name.substring(1)}
-        </StyledText>
-        <StyledText textColor='rgba(0, 0,0, .5)'>{number}</StyledText>
+      <div style={{ flexGrow: '1' }}>
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyItems: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <StyledText
+            textColor='#000'
+            size='xxl'
+            style={{ flexGrow: '1', verticalAlign: 'middle' }}
+          >
+            {first}
+            {name.substring(1)}
+          </StyledText>
+          <StyledText textColor='rgba(0, 0,0, .5)'>{number}</StyledText>
+        </div>
       </div>
       <div>
         <CardButton onClick={handleEdit}>Editar</CardButton>

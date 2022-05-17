@@ -19,7 +19,7 @@ import { FormMessageContainer } from '../Components/Styled/Form/FormMessageConta
 const Login = () => {
   const [form, setForm] = useState({});
   const [error, setError] = useState(null);
-  const [data, newData] = useLS('userInformation', null);
+  const { newData } = useLS('userInformation', null);
   const navigate = useNavigate();
 
   const api = helpHttp();

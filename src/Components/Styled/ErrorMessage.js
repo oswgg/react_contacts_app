@@ -9,7 +9,6 @@ const ErrorMessage = styled.p`
   background: rgba(200, 50, 50, 0.2);
   backdrop-filter: blur(10px);
   border-radius: 20px;
-  z-index: 200;
   color: ${props => (props.textColor ? `${props.textColor}` : '#fff')};
 `;
 

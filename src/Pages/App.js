@@ -4,15 +4,25 @@ import ContactForm from '../Components/ContactForm';
 import ContactsList from '../Components/ContactsList';
 
 // Styles
-import { Wrapper, StyledTitle, NewButton } from '../Components/Styled/Global';
 import ErrorMessage from '../Components/Styled/ErrorMessage';
-import { Button } from '../Components/Styled/Global';
 import { Header } from '../Components/Styled/Header';
-import { NewContactContainer } from '../Components/Styled/NewContact';
+import { BlurredContainer } from '../Components/Styled/BlurredContainer';
 import useContacts from '../Hooks/useContacts';
+import {
+  Wrapper,
+  StyledTitle,
+  NewButton,
+  Button,
+} from '../Components/Styled/Global';
+import NavModal from '../Components/NavModal';
+import useVisible from '../Hooks/useVisible';
+
+// Images or svg
+import menu from '../Assets/images/menu.svg';
 
 function App() {
-  const [visible, setVisible] = useState(false);
+  const formModal = useVisible();
+  const navModal = useVisible();
   const [formError, setFormError] = useState(null);
 
   const {
@@ -45,7 +55,7 @@ function App() {
       return;
     }
 
-    setVisible(false);
+    formModal.changeVisibilty();
     if (form.id) {
       updateContact(form);
     } else {
@@ -55,21 +65,26 @@ function App() {
 
   return (
     <Wrapper>
-      <NewContactContainer visible={visible}>
+      <BlurredContainer visible={formModal.visible}>
         <ContactForm
           handleOnSubmit={handleSubmit}
           handleOnEdit={handleOnEdit}
           dataToEdit={dataToEdit}
-          setVisible={setVisible}
+          changeVisible={formModal.changeVisibility}
           formError={formError}
         />
-      </NewContactContainer>
+      </BlurredContainer>
+
+      <BlurredContainer visible={navModal.visible}>
+        <NavModal logOut={logOut} changeVisible={navModal.changeVisibility} />
+      </BlurredContainer>
+
       <Header>
         <StyledTitle textColor='rgba(255,255,255, 0.9)'>
           <span style={{ fontWeight: '100' }}>Hello,</span> {data?.user}
         </StyledTitle>
-        <Button onClick={logOut} style={{ marginRight: '5%' }}>
-          Log out
+        <Button onClick={() => navModal.changeVisibility()}>
+          <img src={menu} />
         </Button>
       </Header>
 
@@ -80,10 +95,11 @@ function App() {
           contacts={contacts}
           deleteContact={deleteContact}
           handleOnEdit={handleOnEdit}
-          setVisible={setVisible}
+          changeVisible={formModal.changeVisibility}
         />
       )}
-      <NewButton onClick={() => setVisible(true)}></NewButton>
+
+      <NewButton onClick={formModal.changeVisibility}></NewButton>
     </Wrapper>
   );
 }

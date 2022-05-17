@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import helpHttp from '../helpers/helpHttp';
 
-// styles
+// Styles
 import ErrorMessage from '../Components/Styled/ErrorMessage';
 import { FormContainer } from '../Components/Styled/Form/FormContainer';
 import { FormInput, FormSubmit } from '../Components/Styled/Form/FormInput';

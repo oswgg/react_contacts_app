@@ -6,10 +6,10 @@ import helpHttp from '../helpers/helpHttp';
 const api = helpHttp();
 
 const useContacts = () => {
+  const { data, newData } = useLS('userInformation', null);
   const [contacts, setContacts] = useState([]);
-  const [data, newData] = useLS('userInformation', null);
-  const [error, setError] = useState(null);
   const [dataToEdit, setDataToEdit] = useState(null);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
